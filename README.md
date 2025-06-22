@@ -1,19 +1,8 @@
 # Kafka MCP Server
-[![smithery badge](https://smithery.ai/badge/@<your_username>/mcp-server-kafka)](https://smithery.ai/server/@<your_username>/mcp-server-kafka)
 
 A [Model Context Protocol](https://www.anthropic.com/news/model-context-protocol) server implementation for Apache Kafka. Enabling MCP client to interact with topics hosted in a Kafka instance.
 
 ## Running locally with the Claude desktop app
-
-### Installing via Smithery
-
-To install Kafka MCP Server for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@<your_username>/mcp-server-kafka):
-
-```bash
-npx -y @smithery/cli install @<your_username>/mcp-server-kafka --client claude
-```
-
-### Try it online
 
 ### Manual Installation
 1. Clone this repository.
