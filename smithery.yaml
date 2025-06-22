@@ -1,0 +1,49 @@
+# Smithery configuration file: https://smithery.ai/docs/config#smitheryyaml
+
+startCommand:
+  type: stdio
+  configSchema:
+    # JSON Schema defining the configuration options for the MCP.
+    type: object
+    required:
+      - kafkaBootstrapServers
+    properties:
+      kafkaBootstrapServers:
+        type: string
+        description: Comma-separated list of Kafka bootstrap servers (e.g., 'localhost:9092').
+      kafkaSecurityProtocol:
+        type: string
+        description: Security protocol for Kafka connection (e.g., PLAINTEXT, SSL, SASL_PLAINTEXT, SASL_SSL).
+        default: PLAINTEXT
+      kafkaSaslMechanism:
+        type: string
+        description: SASL mechanism for Kafka authentication (e.g., PLAIN, SCRAM-SHA-256, SCRAM-SHA-512).
+      kafkaSaslPlainUsername:
+        type: string
+        description: Username for SASL/PLAIN authentication.
+      kafkaSaslPlainPassword:
+        type: string
+        description: Password for SASL/PLAIN authentication.
+        format: password # Indicates this is a sensitive field
+  commandFunction:
+    # A function that produces the CLI command to start the MCP on stdio.
+    |-
+    (config) => {
+      const args = [
+        '--kafka-bootstrap-servers', config.kafkaBootstrapServers
+      ];
+      if (config.kafkaSecurityProtocol) {
+        args.push('--kafka-security-protocol', config.kafkaSecurityProtocol);
+      }
+      if (config.kafkaSaslMechanism) {
+        args.push('--kafka-sasl-mechanism', config.kafkaSaslMechanism);
+      }
+      if (config.kafkaSaslPlainUsername) {
+        args.push('--kafka-sasl-plain-username', config.kafkaSaslPlainUsername);
+      }
+      if (config.kafkaSaslPlainPassword) {
+        args.push('--kafka-sasl-plain-password', config.kafkaSaslPlainPassword);
+      }
+      // Add logic for other SASL mechanisms or security settings if needed
+      return { command: 'mcp-server-kafka', args };
+    }
